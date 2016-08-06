@@ -1,0 +1,6 @@
+[package]
+name    = "varsun"
+version = "0.1.0"
+authors = ["chikuchikugonzalez <chikuchikugonzalez@gmail.com>"]
+
+[dependencies]
