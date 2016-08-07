@@ -68,7 +68,7 @@ let homedir = varsun::posix::substitute("${USERPROFILE}", |name: &str| -> Option
 });
 ```
 
-### 常にWindows (`%HOGE%`) を使う - Use Windows (`%HOGE%`) style alwasy -
+### 常にWindows (`%HOGE%`) を使う - Use Windows (`%HOGE%`) style always -
 
 ```rust
 extern crate varsun;
