@@ -23,6 +23,73 @@ Go言語における `os.ExpandEnv` 相当のものが欲しかったけど、�
 - ベンチマーク
     - `cargo bench` が動かん(´・ω・｀)
 
+使い方 - Usage -
+----------------
+
+```rust
+extern crate varsun;
+
+// on Linux system.
+let homedir = varsun::substitute("$HOME", |name: &str| -> Option<String> {
+    match ::std::env::var(name) {
+        Ok(val) => Some(val),
+        Err(_)  => NOne,
+    }
+});
+
+// on Windows.
+let homedir = varsun::substitute("%USERPROFILE%", |name: &str| -> Option<String> {
+    match ::std::env::var(name) {
+        Ok(val) => Some(val),
+        Err(_)  => None,
+    }
+});
+```
+
+### 常にPOSIX (`$HOGE`) を使う - Use POSIX (`$HOGE`) style always -
+
+```rust
+extern crate varsun;
+
+// on Linux.
+let homedir = varsun::posix::substitute("${HOME}", |name: &str| -> Option<String> {
+    match ::std::env::var(name) {
+        Ok(val) => Some(val),
+        Err(_)  => None,
+    }
+});
+
+// on Windows.
+let homedir = varsun::posix::substitute("${USERPROFILE}", |name: &str| -> Option<String> {
+    match ::std::env::var(name) {
+        Ok(val) => Some(val),
+        Err(_)  => None,
+    }
+});
+```
+
+### 常にWindows (`%HOGE%`) を使う - Use Windows (`%HOGE%`) style alwasy -
+
+```rust
+extern crate varsun;
+
+// on Linux.
+let homedir = varsun::windows::substitute("%HOME%", |name: &str| -> Option<String> {
+    match ::std::env::var(name) {
+        Ok(val) => Some(val),
+        Err(_)  => None,
+    }
+});
+
+// on Windows.
+let homedir = varsun::windows::substitute("%USERPROFILE%", |name: &str| -> Option<String> {
+    match ::std::env::var(name) {
+        Ok(val) => Some(val),
+        Err(_)  => None,
+    }
+});
+```
+
 作者 - Author -
 ---------------
 
