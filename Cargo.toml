@@ -1,10 +1,11 @@
 [package]
-name        = "varsun"
-version     = "0.1.0"
-authors     = ["chikuchikugonzalez <chikuchikugonzalez@gmail.com>"]
-description = "varsun provides shell/command-prompt like variable substition functions."
-repository  = "https://bitbucket.org/chiku2gonzalez/varsun"
-readme      = "README.md"
-license     = "MIT"
+name          = "varsun"
+version       = "0.1.1"
+authors       = ["chikuchikugonzalez <chikuchikugonzalez@gmail.com>"]
+description   = "varsun provides shell/command-prompt like variable substition functions."
+documentation = "https://chikuchikugonzalez.github.io/docs/crate/varsun/"
+repository    = "https://github.com/chikuchikugonzalez/varsun"
+readme        = "README.md"
+license       = "MIT"
 
 [dependencies]
