@@ -23,58 +23,38 @@
 /// ```
 pub fn substitute<F>(src: &str, mapfn: F) -> String where F: Fn(&str) -> Option<String> {
     let mut dst = String::new();
-    let mut chs = src.chars();
+
+    // Marker
+    let marker = '%';
+
+    // Split
+    let mut elements = src.split(marker);
 
     // Temporary variables.
-    let mut varname = String::new();
-    let mut started = false;
+    let mut active = false;
 
-    // Check each characters.
-    while let Some(ch) = chs.next() {
-        if ch == '%' {
-            if started {
-                // Reach end of varname section.
+    // Process
+    while let Some(element) = elements.next() {
+        if active {
+            // Current element may variable.
+            if let Some(val) = mapfn(element) {
+                // Resolved variable.
+                dst.push_str(val.as_str());
 
-                // Call mapping-function.
-                if let Some(val) = mapfn(varname.as_str()) {
-                    // Push raw value.
-                    dst.push_str(val.as_str());
-
-                    // Leave varname section.
-                    started = false;
-                } else {
-                    // Push Back Variable.
-                    dst.push('%');
-                    dst.push_str(varname.as_str());
-                }
-
-                // Reset varname.
-                varname.clear();
+                // Deactivate context.
+                active = false;
             } else {
-                // Enter varname section.
-                started = true;
-
-                // Continue to Next.
-                continue;
+                // Not variable. Keep variable name.
+                dst.push(marker);
+                dst.push_str(element);
             }
         } else {
-            if started {
-                // Part of varname.
-                varname.push(ch);
-            } else {
-                // Part of text.
-                dst.push(ch);
-            }
+            // Next element may variable.
+            active = true;
+
+            // Append to destination.
+            dst.push_str(element);
         }
-    }
-
-    // Push Back vaname if cursor placed in varname section yet.
-    if started {
-        dst.push('%');
-        dst.push_str(varname.as_str());
-
-        // Reset
-        varname.clear();
     }
 
     return dst;
